@@ -67,7 +67,8 @@
               '\t\t<a href="#" class="text-green-800">About</a>',
               '\t\t<a href="#" class="text-blue-800">Contact</a>',
               '\t</nav>',
-              '</div>'
+              '</div>',
+              '<p>\n\tLet\'s see an element without any classes.\n</p>'
             ].join('\n'),
           };
           this.editor = monaco.editor.create(this.$refs.editor, editorOptions);
@@ -91,7 +92,7 @@
 
     const prefixer = (nodes, prefix) => {
       nodes.forEach((node) => {
-        if (node.classList == undefined)
+        if (node.classList == undefined || node.classList.length == 0)
           return;
         node.className = node.className
           .trim()
