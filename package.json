@@ -1,0 +1,23 @@
+{
+  "name": "html-class-prefixer",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "repository": "https://github.com/vaibks/html-class-prefixer",
+  "author": {
+    "name": "Vaibhav Shinde",
+    "email": "vaibhavkshinde20@gmail.com"
+  },
+  "devDependencies": {
+    "alpinejs": "^2.8.0",
+    "autoprefixer": "^10.2.4",
+    "emmet-monaco-es": "^4.4.2",
+    "monaco-editor": "^0.22.3",
+    "postcss": "^8.2.5",
+    "tailwindcss": "^2.0.2",
+    "vite": "^2.0.0-beta.65"
+  }
+}

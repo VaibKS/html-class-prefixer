@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML Class Prefixer</title>
+  <!-- Using an Emoji as Favicon! -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+  <script type="module" src="./src/main.js"></script>
+  <style>
+    [x-cloak] {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="antialiased bg-vs-dark text-gray-200">
+
+  <div x-data="app()" x-init="init" x-cloak class="flex flex-col h-screen divide-y-2 divide-gray-600">
+    <div class="flex-1 flex flex-col lg:flex-row divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-gray-600">
+      <div class="flex-1 flex flex-col divide-y-2 divide-gray-600">
+        <div class="text-sm py-3 px-4 uppercase font-medium tracking-wider text-gray-400">HTML</div>
+        <div class="flex-1 bg-gray-800" x-ref="editor"></div>
+      </div>
+      <div class="flex-1 flex flex-col divide-y-2 divide-gray-600">
+        <h3 class="text-sm py-3 pl-4 uppercase font-medium tracking-wider text-gray-400">Prefixed HTML</h3>
+        <div class="flex-1 bg-gray-800" x-ref="viewer"></div>
+      </div>
+    </div>
+    <div class="flex px-6 py-4 items-center justify-between">
+      <div class="flex flex-col space-y-1">
+        <label class="text-xs uppercase tracking-widest text-gray-400">Prefix</label>
+        <input class="w-32 px-2 py-1 bg-gray-600 text-gray-300 transition duration-300 focus:shadow-2xl rounded-sm" type="text" x-model="prefix" />
+      </div>
+      <button @click="prefixer"
+        class="px-4 py-2 bg-gray-800 text-indigo-200 uppercase font-bold rounded-sm shadow-md hover:shadow-2xl transition duration-300 active:ring">Prefix
+        It</button>
+    </div>
+  </div>
+
+  <script>
+    function app() {
+      return {
+        editor: null,
+        viewer: null,
+        prefix: 'tw-',
+        init() {
+          let editorOptions = {
+            language: 'html',
+            theme: 'vs-dark',
+            lineNumbers: false,
+            automaticLayout: true,
+            scrollBeyondLastLine: false,
+            // tabSize: 2,
+            // tabCompletion: true,
+            // autoIndent: true,
+            // autoClosingBrackets: true,
+            minimap: {
+              enabled: false,
+            },
+            value: [
+              '<div class="flex px-6 py-6 items-center bg-gray-200">',
+              '\t<h1 class="text-3xl font-black text-black">HTML Class Prefixer</h1>',
+              '\t<nav class="flex-1 flex justify-end space-x-4">',
+              '\t\t<a href="#" class="text-indigo-800">Home</a>',
+              '\t\t<a href="#" class="text-green-800>About</a>',
+              '\t\t<a href="#" class="text-blue-800">Contact</a>',
+              '\t</nav>',
+              '</div>'
+            ].join('\n'),
+          };
+          this.editor = monaco.editor.create(this.$refs.editor, editorOptions);
+          this.viewer = monaco.editor.create(this.$refs.viewer, editorOptions);
+          this.prefixer();
+        },
+        prefixer() {
+          const html = this.editor.getModel().getValue();
+          this.viewer.getModel().setValue(prefixHTML(html, this.prefix));
+        },
+
+      }
+    }
+  </script>
+  <script>
+    const prefixHTML = (html, prefix) => {
+      let DOM = new DOMParser().parseFromString(html, 'text/html');
+      DOM.body.childNodes = prefixer(DOM.body.childNodes, prefix);
+      return DOM.body.innerHTML;
+    }
+
+    const prefixer = (nodes, prefix) => {
+      nodes.forEach((node) => {
+        if (node.classList == undefined)
+          return;
+        node.className = node.className
+          .trim()
+          .split(' ')
+          .map((c) => {
+            let match = c.match(/(.*):(.*)/);
+            if (match) {
+              console.log(`Match for ${node}`)
+              c = `${match[1]}:${prefix}${match[2]}`;
+            }
+            else
+              c = prefix + c;
+            return c;
+          })
+          .join(' ');
+        node.childNodes = prefixer(node.childNodes, prefix);
+      });
+      return nodes;
+    }
+  </script>
+
+</body>
+
+</html>
