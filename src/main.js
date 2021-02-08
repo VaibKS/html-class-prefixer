@@ -13,4 +13,3 @@ self.MonacoEnvironment = {
 }
 
 self.monaco = monaco
-self.prefixHTML = prefixHTML
