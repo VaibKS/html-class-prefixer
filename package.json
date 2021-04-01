@@ -12,6 +12,7 @@
     "email": "vaibhavkshinde20@gmail.com"
   },
   "devDependencies": {
+    "@tailwindcss/jit": "^0.1.18",
     "alpinejs": "^2.8.0",
     "autoprefixer": "^10.2.4",
     "emmet-monaco-es": "^4.4.2",
