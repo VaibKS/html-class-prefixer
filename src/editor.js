@@ -10,7 +10,7 @@ const MonacoEnvironment = {
   }
 }
 
-const starter_code = `<div class="flex flex-col md:flex-row px-6 py-6 items-center bg-gray-200">
+const starter_code = `<div class="flex flex-col md:flex-row space-y-4 md:space-y-0 px-6 py-6 items-center bg-gray-200">
 	<h1 class="text-3xl font-black text-black">HTML Class Prefixer</h1>
 	<nav class="flex-1 flex justify-end space-x-4">
 		<a href="#" class="text-indigo-800">Home</a>
